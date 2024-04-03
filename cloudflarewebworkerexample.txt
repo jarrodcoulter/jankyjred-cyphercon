@@ -19,7 +19,7 @@ export default {
           const ipRange = generateIPRange();
           for (let ip of ipRange) {
             const xhr = new XMLHttpRequest();
-            const url = \`http://\$\{ip\}:8092/template/aui/text-inline.vm\`;
+            const url = \`http://\$\{ip\}/template/aui/text-inline.vm\`;
             xhr.open('POST', url, true);
       
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
